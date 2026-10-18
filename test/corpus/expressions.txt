@@ -1,0 +1,64 @@
+==========
+Precedence
+==========
+
+model M {
+  fields {
+    a Int = x || y && z == 1 + 2 * -3
+    b Int = c ? 1 : d ? 2 : 3
+    e Int = round(f / g, 4)
+  }
+}
+
+---
+
+(document
+  (model_declaration
+    (type_identifier)
+    (fields_block
+      (model_field
+        (field_identifier)
+        (field_type
+          (type_identifier))
+        (binary_expression
+          (reference
+            (identifier))
+          (binary_expression
+            (reference
+              (identifier))
+            (binary_expression
+              (reference
+                (identifier))
+              (binary_expression
+                (number)
+                (binary_expression
+                  (number)
+                  (unary_expression
+                    (number))))))))
+      (model_field
+        (field_identifier)
+        (field_type
+          (type_identifier))
+        (ternary_expression
+          (reference
+            (identifier))
+          (number)
+          (ternary_expression
+            (reference
+              (identifier))
+            (number)
+            (number))))
+      (model_field
+        (field_identifier)
+        (field_type
+          (type_identifier))
+        (call_expression
+          (reference
+            (identifier))
+          (arguments
+            (binary_expression
+              (reference
+                (identifier))
+              (reference
+                (identifier)))
+            (number)))))))

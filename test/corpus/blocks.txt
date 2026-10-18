@@ -1,0 +1,139 @@
+===========================
+Reads entries, one per line
+===========================
+
+model Job {
+  reads {
+    Estimator, status != "Draft" && ProjectManager
+    assignee
+    (approved) || Auditor
+  }
+}
+
+---
+
+(document
+  (model_declaration
+    (type_identifier)
+    (reads_block
+      (principal_list
+        (reference
+          (identifier))
+        (binary_expression
+          (binary_expression
+            (reference
+              (identifier))
+            (string))
+          (reference
+            (identifier))))
+      (principal_list
+        (reference
+          (identifier)))
+      (principal_list
+        (binary_expression
+          (parenthesized_expression
+            (reference
+              (identifier)))
+          (reference
+            (identifier)))))))
+
+=======
+Actions
+=======
+
+model Job {
+  actions {
+    create open(id, name) by Admin, Manager {
+      status = "Open";
+      base.openedAt = now()
+    }
+    update approve(id) with (note, reason?) where (status == "Open") by Manager
+    delete remove(id)
+  }
+}
+
+---
+
+(document
+  (model_declaration
+    (type_identifier)
+    (actions_block
+      (action
+        (action_kind)
+        (function_identifier)
+        (parameters
+          (parameter)
+          (parameter))
+        (by_clause
+          (principal_list
+            (reference
+              (identifier))
+            (reference
+              (identifier))))
+        (code_block
+          (assignment
+            (assignment_target
+              (identifier))
+            (string))
+          (assignment
+            (assignment_target
+              (identifier)
+              (identifier))
+            (call_expression
+              (reference
+                (identifier))
+              (arguments)))))
+      (action
+        (action_kind)
+        (function_identifier)
+        (parameters
+          (parameter))
+        (with_clause
+          (field_identifier)
+          (field_identifier))
+        (where_clause
+          (binary_expression
+            (reference
+              (identifier))
+            (string)))
+        (by_clause
+          (principal_list
+            (reference
+              (identifier)))))
+      (action
+        (action_kind)
+        (function_identifier)
+        (parameters
+          (parameter))))))
+
+=====
+Views
+=====
+
+view Active for Admin, Manager {
+  title: name! @width(200)
+  owner? {
+    id
+  }
+}
+
+---
+
+(document
+  (view_declaration
+    (type_identifier)
+    (type_identifier)
+    (type_identifier)
+    (view_body
+      (view_field
+        (field_identifier)
+        (field_identifier)
+        (attribute
+          (attribute_identifier)
+          (arguments
+            (number))))
+      (view_field
+        (field_identifier)
+        (view_body
+          (view_field
+            (field_identifier)))))))

@@ -1,0 +1,151 @@
+========================
+Roles, enums and scalars
+========================
+
+"""Approves variations."""
+role Manager
+enum Status { Draft "In Review" }
+scalar NZD = Currency(format: "$1,000.00")
+
+---
+
+(document
+  (doc_string)
+  (role_declaration
+    (type_identifier))
+  (enum_declaration
+    (type_identifier)
+    (enum_body
+      (enum_member)
+      (string)))
+  (scalar_declaration
+    (type_identifier)
+    (type_identifier)
+    (arguments
+      (named_argument
+        (identifier)
+        (string)))))
+
+=========================================
+Model with extends, attributes and fields
+=========================================
+
+# A claim
+model Claim extends Base, Audited {
+  @icon("receipt")
+  fields {
+    title String @title
+    amount NZD? @default(0)
+    lines Line[]
+    stage enum { Open Closed }
+  }
+  @unique(project, reference)
+}
+
+---
+
+(document
+  (comment)
+  (model_declaration
+    (type_identifier)
+    (extends_clause
+      (type_identifier)
+      (type_identifier))
+    (attribute
+      (attribute_identifier)
+      (arguments
+        (string)))
+    (fields_block
+      (model_field
+        (field_identifier)
+        (field_type
+          (type_identifier))
+        (attribute
+          (attribute_identifier)))
+      (model_field
+        (field_identifier)
+        (field_type
+          (type_identifier))
+        (attribute
+          (attribute_identifier)
+          (arguments
+            (number))))
+      (model_field
+        (field_identifier)
+        (field_type
+          (type_identifier)))
+      (model_field
+        (field_identifier)
+        (inline_enum
+          (enum_body
+            (enum_member)
+            (enum_member)))))
+    (attribute
+      (attribute_identifier)
+      (arguments
+        (reference
+          (identifier))
+        (reference
+          (identifier))))))
+
+=======================
+Keywords as field names
+=======================
+
+model Thing {
+  fields {
+    view String
+    update Int
+    reads Bool
+  }
+}
+
+---
+
+(document
+  (model_declaration
+    (type_identifier)
+    (fields_block
+      (model_field
+        (field_identifier)
+        (field_type
+          (type_identifier)))
+      (model_field
+        (field_identifier)
+        (field_type
+          (type_identifier)))
+      (model_field
+        (field_identifier)
+        (field_type
+          (type_identifier))))))
+
+=============
+Derived model
+=============
+
+model Portal derives Contract where (status != "Draft") {
+  fields {
+    number String = base.number
+  }
+}
+
+---
+
+(document
+  (model_declaration
+    (type_identifier)
+    (derives_clause
+      (type_identifier)
+      (where_clause
+        (binary_expression
+          (reference
+            (identifier))
+          (string))))
+    (fields_block
+      (model_field
+        (field_identifier)
+        (field_type
+          (type_identifier))
+        (reference
+          (identifier)
+          (identifier))))))

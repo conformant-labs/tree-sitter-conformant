@@ -1,0 +1,14 @@
+{
+	"name": "tree-sitter-plato",
+	"version": "0.0.1",
+	"description": "Tree-sitter grammar for the Plato schema language",
+	"main": "grammar.js",
+	"scripts": {
+		"generate": "tree-sitter generate",
+		"test": "tree-sitter test",
+		"test:seeds": "tree-sitter parse -p . -q -- \"${PLATO_SEEDS:?Set PLATO_SEEDS to a plato-seeds directory}\"/src/*/schema.plato"
+	},
+	"devDependencies": {
+		"tree-sitter-cli": "0.27.0"
+	}
+}
