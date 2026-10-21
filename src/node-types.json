@@ -490,6 +490,10 @@
           "named": true
         },
         {
+          "type": "region",
+          "named": true
+        },
+        {
           "type": "role_declaration",
           "named": true
         },
@@ -951,6 +955,65 @@
     }
   },
   {
+    "type": "region",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "model_declaration",
+          "named": true
+        },
+        {
+          "type": "region",
+          "named": true
+        },
+        {
+          "type": "region_end",
+          "named": true
+        },
+        {
+          "type": "region_start",
+          "named": true
+        },
+        {
+          "type": "role_declaration",
+          "named": true
+        },
+        {
+          "type": "scalar_declaration",
+          "named": true
+        },
+        {
+          "type": "view_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "region_start",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "region_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "role_declaration",
     "named": true,
     "fields": {
@@ -1246,6 +1309,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "attribute",
+          "named": true
+        },
         {
           "type": "type_identifier",
           "named": true
@@ -1548,6 +1615,14 @@
   {
     "type": "reads",
     "named": false
+  },
+  {
+    "type": "region_end",
+    "named": true
+  },
+  {
+    "type": "region_name",
+    "named": true
   },
   {
     "type": "role",

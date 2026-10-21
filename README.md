@@ -42,3 +42,25 @@ These queries use [Zed's capture names](https://zed.dev/docs/extensions/language
 ```bash
 npx tree-sitter query -p . languages/plato/highlights.scm path/to/schema.plato
 ```
+
+### Named sections
+
+Group top-level declarations with ordinary comment markers:
+
+```plato
+# region Products
+  model Product {
+    fields { name String }
+  }
+
+  # region Views
+    view AllProducts @layout("table") {
+      Product { name }
+    }
+  # endregion
+# endregion
+```
+
+Sections appear by name in Zed's outline and can be nested. Both `# region` and `#region` are accepted; each start needs a name and a matching `# endregion`. Markers wrap complete top-level declarations, not fields inside a model.
+
+Indent the contents one level beneath each marker to make them foldable in Zed. Zed's normal folding uses indentation; the grammar supplies section structure and outline names, not independent folding ranges. The closing marker stays at the opening marker's indentation. The Plato runtime treats the markers as comments, so they do not introduce a namespace or change schema behaviour.

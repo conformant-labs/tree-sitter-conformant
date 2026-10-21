@@ -6,29 +6,100 @@
     "document": {
       "type": "REPEAT",
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
+        "type": "SYMBOL",
+        "name": "_declaration"
+      }
+    },
+    "_declaration": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "region"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "model_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "view_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "scalar_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "enum_declaration"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "role_declaration"
+        }
+      ]
+    },
+    "region": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "region_start"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
             "type": "SYMBOL",
-            "name": "model_declaration"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "view_declaration"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "scalar_declaration"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "enum_declaration"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "role_declaration"
+            "name": "_declaration"
           }
-        ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "region_end"
+        }
+      ]
+    },
+    "region_start": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "PATTERN",
+              "value": "#[ \\t]*region[ \\t]+"
+            }
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\r\\n]+"
+              }
+            },
+            "named": true,
+            "value": "region_name"
+          }
+        }
+      ]
+    },
+    "region_end": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "PATTERN",
+          "value": "#[ \\t]*endregion([ \\t]+[^\\r\\n]*)?"
+        }
       }
     },
     "role_declaration": {
@@ -965,6 +1036,13 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "attribute"
+          }
         },
         {
           "type": "SYMBOL",
