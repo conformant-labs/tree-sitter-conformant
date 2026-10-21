@@ -1,0 +1,15 @@
+[workspace]
+members = ["crates/plato-language-server"]
+resolver = "2"
+
+[package]
+name = "zed-plato"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "extension/plato-extension.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+zed_extension_api = "0.7"

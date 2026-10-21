@@ -22,11 +22,36 @@ PLATO_SEEDS=/path/to/plato2/packages/plato-seeds npm run test:seeds
 
 ## Zed
 
-Syntax highlighting, outline, bracket matching and indentation. The queries live in `languages/plato`.
+Syntax highlighting, outline, bracket matching, indentation and language-server folding. The queries live in `languages/plato`.
+
+Install the folding language server first (requires Rust):
+
+```bash
+cargo install --locked --path crates/plato-language-server
+```
+
+The extension finds `plato-language-server` on the worktree's PATH. Alternatively set `lsp.plato.binary.path` in Zed settings to its absolute path. Binary downloads are not configured; rebuild/install the server after changing it or the grammar.
+
+Enable folding ranges for Plato in Zed user or project settings:
+
+```json
+{
+  "languages": {
+    "Plato": { "document_folding_ranges": "on" }
+  }
+}
+```
 
 In Zed, run **zed: install dev extension** and choose this repository. Zed fetches the grammar from GitHub at the commit `extension.toml` names and compiles it, so that commit must be pushed.
 
-To reinstall after changing the queries, run **zed: rebuild dev extension**.
+To reinstall after changing the queries or extension, run **zed: rebuild dev extension**. Rust extension builds require the `wasm32-wasip2` target (`rustup target add wasm32-wasip2`). If Zed cannot access that toolchain, build with a toolchain that has the target, copy the resulting component, then run **zed: reload extensions**:
+
+```bash
+cargo build --locked -p zed-plato --target wasm32-wasip2 --release
+cp target/wasm32-wasip2/release/zed_plato.wasm extension.wasm
+```
+
+This reloads the extension without rebuilding it; the grammar must already be installed.
 
 ### Changing the grammar
 
@@ -49,18 +74,32 @@ Group top-level declarations with ordinary comment markers:
 
 ```plato
 # region Products
-  model Product {
-    fields { name String }
-  }
 
-  # region Views
-    view AllProducts @layout("table") {
-      Product { name }
-    }
-  # endregion
+model Product {
+  fields { name String }
+}
+
+# region Views
+
+view AllProducts @layout("table") {
+  Product { name }
+}
+
+# endregion
+
 # endregion
 ```
 
 Sections appear by name in Zed's outline and can be nested. Both `# region` and `#region` are accepted; each start needs a name and a matching `# endregion`. Markers wrap complete top-level declarations, not fields inside a model.
 
-Indent the contents one level beneath each marker to make them foldable in Zed. Zed's normal folding uses indentation; the grammar supplies section structure and outline names, not independent folding ranges. The closing marker stays at the opening marker's indentation. The Plato runtime treats the markers as comments, so they do not introduce a namespace or change schema behaviour.
+The language server makes sections foldable without indenting their contents. It uses the bundled Tree-sitter grammar to supply both region folds and structural folds (models, fields, actions, reads, enums, views, multiline argument lists and docstrings). This matters because Zed uses LSP ranges instead of its normal indentation folds when the server supplies ranges. Closing markers/delimiters remain visible. The Plato runtime treats the markers as comments, so they do not introduce a namespace or change schema behaviour. Without the server and setting above, section folding still requires indentation.
+
+### Language server development
+
+```bash
+cargo test -p plato-language-server
+cargo check -p zed-plato
+cargo clippy --workspace --all-targets -- -D warnings
+```
+
+`crates/plato-language-server` implements stdio LSP with full document synchronization and `textDocument/foldingRange`. It advertises only folding, not validation or other semantic features. The server compiles the same generated `src/parser.c` as the editor grammar, so grammar updates require rebuilding both. Protocol tests exercise initialization, edits, close, invalid requests and shutdown; folding tests cover nesting, incomplete input, Unicode/CRLF and strings/comments containing marker-like text.
