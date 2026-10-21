@@ -1,3 +1,4 @@
+(region (region_start name: (region_name) @name)) @item
 (role_declaration "role" @context name: (_) @name) @item
 (enum_declaration "enum" @context name: (_) @name) @item
 (scalar_declaration "scalar" @context name: (_) @name) @item
