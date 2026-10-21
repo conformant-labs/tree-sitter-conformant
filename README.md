@@ -33,7 +33,7 @@ To reinstall after changing the queries, run **zed: rebuild dev extension**.
 `extension.toml` pins the grammar to a commit (`rev`). After changing `grammar.js`:
 
 1. Run `npm run generate` and `npm test`, and commit the regenerated `src/`.
-2. Once that commit is on `main` (a squash merge replaces the branch commit, so pin the commit that landed), set `rev` to its SHA.
+2. Push the grammar commit, then set `rev` to its SHA in a follow-up commit so the extension loads matching parser and queries. After a squash merge, update the pin to the commit that landed on `main`.
 
 To try a grammar change before it is pushed, point `repository` at your checkout (`file:///absolute/path/to/tree-sitter-conformant`) and `rev` at a local commit; do not commit that.
 

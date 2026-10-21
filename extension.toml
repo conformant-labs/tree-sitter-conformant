@@ -9,4 +9,4 @@ repository = "https://github.com/conformant-labs/tree-sitter-conformant"
 # A commit of this repository that holds the grammar; see README.md.
 [grammars.plato]
 repository = "https://github.com/conformant-labs/tree-sitter-conformant"
-rev = "2777872332b4a9693e49a0f97ef3983cdb3bda5e"
+rev = "ad3bdd70df23cbf254b14e74a4d3ffe41a4257fc"
