@@ -473,9 +473,11 @@ dependencies = [
  "cc",
  "lsp-server",
  "lsp-types",
+ "regex",
  "serde_json",
  "tree-sitter",
  "tree-sitter-language",
+ "url",
 ]
 
 [[package]]

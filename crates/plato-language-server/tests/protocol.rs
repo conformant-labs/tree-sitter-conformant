@@ -17,8 +17,14 @@ fn folding_tracks_open_change_close_and_shutdown() {
         message.write(&mut input).unwrap();
         input.flush().unwrap();
     };
-    let mut receive =
-        || -> Value { serde_json::to_value(Message::read(&mut output).unwrap().unwrap()).unwrap() };
+    let mut receive = || -> Value {
+        loop {
+            let message = Message::read(&mut output).unwrap().unwrap();
+            if matches!(message, Message::Response(_)) {
+                break serde_json::to_value(message).unwrap();
+            }
+        }
+    };
     send(json!({"jsonrpc":"2.0", "id":1, "method":"initialize", "params":{"capabilities":{}}}));
     assert_eq!(
         receive()["result"]["capabilities"]["foldingRangeProvider"],
@@ -37,7 +43,35 @@ fn folding_tracks_open_change_close_and_shutdown() {
     );
     send(request(3));
     assert_eq!(receive()["result"].as_array().unwrap().len(), 2);
-    send(json!({"jsonrpc":"2.0", "id":4, "method":"textDocument/hover", "params":{}}));
+    for (id, method, extra) in [
+        (30, "textDocument/hover", json!({})),
+        (31, "textDocument/definition", json!({})),
+        (
+            32,
+            "textDocument/references",
+            json!({"context":{"includeDeclaration":true}}),
+        ),
+        (33, "textDocument/prepareRename", json!({})),
+        (34, "textDocument/rename", json!({"newName":"title"})),
+        (35, "textDocument/completion", json!({})),
+        (
+            36,
+            "textDocument/formatting",
+            json!({"options":{"tabSize":2,"insertSpaces":true}}),
+        ),
+    ] {
+        let mut params = json!({"textDocument":{"uri":uri},"position":{"line":2,"character":2}});
+        params
+            .as_object_mut()
+            .unwrap()
+            .extend(extra.as_object().unwrap().clone());
+        send(json!({"jsonrpc":"2.0","id":id,"method":method,"params":params}));
+        let response = receive();
+        assert!(response.get("error").is_none(), "{method}: {response}");
+        assert!(!response["result"].is_null(), "{method}: {response}");
+    }
+
+    send(json!({"jsonrpc":"2.0", "id":4, "method":"textDocument/codeAction", "params":{}}));
     assert_eq!(receive()["error"]["code"], -32601);
     send(json!({"jsonrpc":"2.0", "id":5, "method":"textDocument/foldingRange", "params":{}}));
     assert_eq!(receive()["error"]["code"], -32602);

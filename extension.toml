@@ -1,7 +1,7 @@
 id = "plato"
 name = "Plato"
-description = "Syntax highlighting, outline and syntax-aware folding for Plato schemas (.plato)."
-version = "0.1.0"
+description = "Plato schema editing: diagnostics, completion, navigation, rename, formatting and folding."
+version = "0.2.0"
 schema_version = 1
 authors = ["Plato"]
 repository = "https://github.com/conformant-labs/tree-sitter-conformant"

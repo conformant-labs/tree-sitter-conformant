@@ -6,16 +6,19 @@ extern "C" {
     fn tree_sitter_plato() -> *const ();
 }
 
-/// Parse folding ranges from Plato syntax, independent of source indentation.
-pub fn plato_folding_ranges(source: &str) -> Vec<FoldingRange> {
+/// Parse editor syntax using the bundled Plato grammar.
+pub fn parse_plato_tree(source: &str) -> tree_sitter::Tree {
     let mut parser = Parser::new();
     let language = unsafe { LanguageFn::from_raw(tree_sitter_plato) };
     parser
         .set_language(&language.into())
         .expect("bundled Plato grammar");
-    let Some(tree) = parser.parse(source, None) else {
-        return vec![];
-    };
+    parser.parse(source, None).expect("Plato parse")
+}
+
+/// Collect region and structural folding ranges, independent of indentation.
+pub fn plato_folding_ranges(source: &str) -> Vec<FoldingRange> {
+    let tree = parse_plato_tree(source);
     let mut ranges = Vec::new();
     collect_folding_ranges(tree.root_node(), source, &mut ranges);
     ranges.sort_by_key(|range| (range.start_line, std::cmp::Reverse(range.end_line)));
