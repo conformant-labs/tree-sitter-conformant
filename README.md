@@ -22,15 +22,15 @@ CONFORMANT_SCHEMAS=/path/to/schemas npm run test:schemas
 
 ## Zed
 
-Syntax highlighting, outline, bracket matching and indentation. The queries live in `languages/conformant`.
+Syntax highlighting, outline, bracket matching and indentation. The extension lives in `editors/zed`, and its queries in `editors/zed/languages/conformant`.
 
-In Zed, run **zed: install dev extension** and choose this repository. Zed fetches the grammar from GitHub at the commit `extension.toml` names and compiles it, so that commit must be pushed.
+In Zed, run **zed: install dev extension** and choose `editors/zed`. Zed fetches the grammar from GitHub at the commit `extension.toml` names and compiles it, so that commit must be pushed.
 
 To reinstall after changing the queries, run **zed: rebuild dev extension**.
 
 ### Changing the grammar
 
-`extension.toml` pins the grammar to a commit (`rev`). After changing `grammar.js`:
+`editors/zed/extension.toml` pins the grammar to a commit of this repository (`rev`). After changing `grammar.js`:
 
 1. Run `npm run generate` and `npm test`, and commit the regenerated `src/`.
 2. Once that commit is on `main` (a squash merge replaces the branch commit, so pin the commit that landed), set `rev` to its SHA.
@@ -40,7 +40,7 @@ To try a grammar change before it is pushed, point `repository` at your checkout
 These queries use [Zed's capture names](https://zed.dev/docs/extensions/languages). Check a query compiles against the grammar with:
 
 ```bash
-npx tree-sitter query -p . languages/conformant/highlights.scm path/to/schema.conformant
+npx tree-sitter query -p . editors/zed/languages/conformant/highlights.scm path/to/schema.conformant
 ```
 
 ## Neovim
@@ -59,7 +59,7 @@ return {
         require("nvim-treesitter.parsers").conformant = {
           install_info = {
             path = vim.fn.expand("~/git/tree-sitter-conformant"),
-            queries = "languages/conformant",
+            queries = "editors/zed/languages/conformant",
           },
         }
       end,
