@@ -1,6 +1,6 @@
 # tree-sitter-conformant
 
-Tree-sitter grammar and Zed extension for [Plato](https://github.com/conformant-labs/plato2) schemas (`.plato`).
+Tree-sitter grammar, Zed extension and Neovim setup for [Plato](https://github.com/conformant-labs/plato2) schemas (`.plato`).
 
 The language's source of truth is the Chevrotain lexer and parser in plato2 (`packages/plato-schema`). This grammar follows those rules closely enough for an editor: it does not report dangling docstrings or check action kinds.
 
@@ -42,3 +42,33 @@ These queries use [Zed's capture names](https://zed.dev/docs/extensions/language
 ```bash
 npx tree-sitter query -p . languages/plato/highlights.scm path/to/schema.plato
 ```
+
+## Neovim
+
+With [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) (the `main` branch) and lazy.nvim, add a spec such as `lua/plugins/plato.lua`, pointing `path` at your clone of this repository:
+
+```lua
+vim.filetype.add({ extension = { plato = "plato" } })
+
+return {
+  "nvim-treesitter/nvim-treesitter",
+  init = function()
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "TSUpdate",
+      callback = function()
+        require("nvim-treesitter.parsers").plato = {
+          install_info = {
+            path = vim.fn.expand("~/git/tree-sitter-conformant"),
+            queries = "languages/plato",
+          },
+        }
+      end,
+    })
+  end,
+  opts = { ensure_installed = { "plato" } },
+}
+```
+
+Then run `:TSInstall plato`, and `:TSInstall! plato` to rebuild after pulling or editing the grammar. Building needs the `tree-sitter` CLI on `PATH` (Mason's `tree-sitter-cli`, or `brew install tree-sitter-cli`).
+
+nvim-treesitter downloads a `url` source as a GitHub archive without credentials, so it cannot install from this repository while it is private.
