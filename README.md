@@ -69,6 +69,4 @@ return {
 }
 ```
 
-Then run `:TSInstall conformant`, and `:TSInstall! conformant` to update to the latest `main`. Building needs the `tree-sitter` CLI on `PATH` (Mason's `tree-sitter-cli`, or `brew install tree-sitter-cli`).
-
-To work on the grammar, replace `url` with `path = vim.fn.expand("~/git/tree-sitter-conformant")` (your clone). If you already installed from `url`, run `:TSUninstall conformant` and then `:TSInstall conformant`; `:TSInstall!` would keep the old copy of the queries instead of linking to your clone. After that, `:TSInstall! conformant` rebuilds after editing the grammar.
+Then run `:TSInstall conformant`.
