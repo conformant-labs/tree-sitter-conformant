@@ -1,8 +1,8 @@
 # tree-sitter-conformant
 
-Tree-sitter grammar, Zed extension and Neovim setup for [Conformant](https://github.com/conformant-labs/conformant) schemas (`.conformant`, and the older `.plato`).
+Tree-sitter grammar, Zed extension and Neovim setup for the schema language used by [Conformant](https://conformant.com) (`.conformant` files, and the older `.plato`).
 
-The language's source of truth is the Chevrotain lexer and parser in conformant (`packages/plato-schema`). This grammar follows those rules closely enough for an editor: it does not report dangling docstrings or check action kinds.
+Conformant's own parser is the language's source of truth. This grammar follows it closely enough for an editor: it does not report dangling docstrings or check action kinds.
 
 ## Develop
 
