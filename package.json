@@ -2,6 +2,7 @@
 	"name": "tree-sitter-conformant",
 	"version": "0.0.1",
 	"description": "Tree-sitter grammar for the Conformant schema language",
+	"license": "MIT",
 	"main": "grammar.js",
 	"scripts": {
 		"generate": "tree-sitter generate",
