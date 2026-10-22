@@ -45,7 +45,7 @@ npx tree-sitter query -p . editors/zed/languages/conformant/highlights.scm path/
 
 ## Neovim
 
-With [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) (the `main` branch) and lazy.nvim, add a spec such as `lua/plugins/conformant.lua`, pointing `path` at your clone of this repository:
+With [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) (the `main` branch) and lazy.nvim, add a spec such as `lua/plugins/conformant.lua`:
 
 ```lua
 vim.filetype.add({ extension = { conformant = "conformant", plato = "conformant" } })
@@ -58,7 +58,7 @@ return {
       callback = function()
         require("nvim-treesitter.parsers").conformant = {
           install_info = {
-            path = vim.fn.expand("~/git/tree-sitter-conformant"),
+            url = "https://github.com/conformant-labs/tree-sitter-conformant",
             queries = "editors/zed/languages/conformant",
           },
         }
@@ -69,6 +69,4 @@ return {
 }
 ```
 
-Then run `:TSInstall conformant`, and `:TSInstall! conformant` to rebuild after pulling or editing the grammar. Building needs the `tree-sitter` CLI on `PATH` (Mason's `tree-sitter-cli`, or `brew install tree-sitter-cli`).
-
-nvim-treesitter downloads a `url` source as a GitHub archive without credentials, so it cannot install from this repository while it is private.
+Then run `:TSInstall conformant`.
