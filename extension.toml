@@ -9,4 +9,4 @@ repository = "https://github.com/conformant-labs/tree-sitter-conformant"
 # A commit of this repository that holds the grammar; see README.md.
 [grammars.conformant]
 repository = "https://github.com/conformant-labs/tree-sitter-conformant"
-rev = "2777872332b4a9693e49a0f97ef3983cdb3bda5e"
+rev = "119e361469fe9252bcbecf9f3e61d3544cf3b54c"
