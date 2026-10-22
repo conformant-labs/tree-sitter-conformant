@@ -2,15 +2,15 @@
 	"$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
 	"grammars": [
 		{
-			"name": "plato",
-			"camelcase": "Plato",
-			"scope": "source.plato",
+			"name": "conformant",
+			"camelcase": "Conformant",
+			"scope": "source.conformant",
 			"path": ".",
-			"file-types": ["plato"]
+			"file-types": ["conformant", "plato"]
 		}
 	],
 	"metadata": {
 		"version": "0.0.1",
-		"description": "Tree-sitter grammar for the Plato schema language"
+		"description": "Tree-sitter grammar for the Conformant schema language"
 	}
 }

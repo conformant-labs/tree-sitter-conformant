@@ -2,3 +2,5 @@ node_modules/
 build/
 *.wasm
 .DS_Store
+grammars/
+parser.so
