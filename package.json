@@ -6,7 +6,7 @@
 	"scripts": {
 		"generate": "tree-sitter generate",
 		"test": "tree-sitter test",
-		"test:seeds": "tree-sitter parse -p . -q -- \"${CONFORMANT_SEEDS:?Set CONFORMANT_SEEDS to a plato-seeds directory}\"/src/*/schema.plato"
+		"test:schemas": "find \"${CONFORMANT_SCHEMAS:?Set CONFORMANT_SCHEMAS to a directory of schemas}\" -type f \\( -name '*.conformant' -o -name '*.plato' \\) -not -path '*/node_modules/*' -exec tree-sitter parse -p . -q -- {} +"
 	},
 	"devDependencies": {
 		"tree-sitter-cli": "0.27.0"

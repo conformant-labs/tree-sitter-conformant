@@ -14,10 +14,10 @@ npm run generate   # regenerate src/ after editing grammar.js
 
 Commit the regenerated `src/` with the grammar change.
 
-To check the grammar against every seed schema in a conformant checkout:
+To check the grammar against every `.conformant` and `.plato` file under a directory of schemas (it prints only the files that fail to parse):
 
 ```bash
-CONFORMANT_SEEDS=/path/to/conformant/packages/plato-seeds npm run test:seeds
+CONFORMANT_SCHEMAS=/path/to/schemas npm run test:schemas
 ```
 
 ## Zed
