@@ -1,13 +1,13 @@
 /**
- * Tree-sitter grammar for the Plato schema language, for editor highlighting.
+ * Tree-sitter grammar for the Conformant schema language, for editor highlighting.
  *
- * The language's source of truth is the Chevrotain lexer and parser in plato2,
+ * The language's source of truth is the Chevrotain lexer and parser in conformant,
  * `packages/plato-schema/src/lexer.ts` and `parse.ts`; this grammar follows
  * them rule for rule and should change with them. Where it is looser (it does
  * not report dangling docstrings or check action kinds) it is because an
  * editor only needs the shape.
  *
- * @file Plato schema grammar
+ * @file Conformant schema grammar
  */
 
 /// <reference types="tree-sitter-cli/dsl" />
@@ -31,7 +31,7 @@ function sep1(rule, separator) {
 }
 
 module.exports = grammar({
-	name: "plato",
+	name: "conformant",
 
 	// Docstrings document whatever follows them; the editor needs only to see
 	// them, so they may appear anywhere, like comments.

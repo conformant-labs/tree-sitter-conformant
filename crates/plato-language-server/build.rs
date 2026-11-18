@@ -6,5 +6,5 @@ fn main() {
         .include(grammar)
         .file(format!("{grammar}/parser.c"))
         .warnings(false)
-        .compile("tree-sitter-plato");
+        .compile("tree-sitter-conformant");
 }

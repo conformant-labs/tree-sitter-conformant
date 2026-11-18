@@ -1,6 +1,6 @@
-name = "Plato"
-grammar = "plato"
-path_suffixes = ["plato"]
+name = "Conformant"
+grammar = "conformant"
+path_suffixes = ["conformant", "plato"]
 line_comments = ["# "]
 tab_size = 2
 brackets = [

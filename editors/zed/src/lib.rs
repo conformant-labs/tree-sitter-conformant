@@ -1,8 +1,8 @@
 use zed_extension_api::{self as zed, settings::LspSettings, LanguageServerId, Result};
 
-struct PlatoExtension;
+struct ConformantExtension;
 
-impl zed::Extension for PlatoExtension {
+impl zed::Extension for ConformantExtension {
     fn new() -> Self {
         Self
     }
@@ -38,4 +38,4 @@ impl zed::Extension for PlatoExtension {
     }
 }
 
-zed::register_extension!(PlatoExtension);
+zed::register_extension!(ConformantExtension);

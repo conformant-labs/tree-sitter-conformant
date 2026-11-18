@@ -3,13 +3,13 @@ use tree_sitter::{Node, Parser};
 use tree_sitter_language::LanguageFn;
 
 extern "C" {
-    fn tree_sitter_plato() -> *const ();
+    fn tree_sitter_conformant() -> *const ();
 }
 
 /// Parse editor syntax using the bundled Plato grammar.
 pub fn parse_plato_tree(source: &str) -> tree_sitter::Tree {
     let mut parser = Parser::new();
-    let language = unsafe { LanguageFn::from_raw(tree_sitter_plato) };
+    let language = unsafe { LanguageFn::from_raw(tree_sitter_conformant) };
     parser
         .set_language(&language.into())
         .expect("bundled Plato grammar");
