@@ -1,3 +1,5 @@
+(region_start) @comment
+(region_end) @comment
 (comment) @comment
 (doc_string) @comment.doc
 

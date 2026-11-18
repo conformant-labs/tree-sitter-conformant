@@ -40,16 +40,24 @@ module.exports = grammar({
 	word: ($) => $.identifier,
 
 	rules: {
-		document: ($) =>
-			repeat(
-				choice(
-					$.model_declaration,
-					$.view_declaration,
-					$.scalar_declaration,
-					$.enum_declaration,
-					$.role_declaration,
-				),
-			),
+		document: ($) => repeat($._declaration),
+
+		_declaration: ($) => choice(
+			$.region,
+			$.model_declaration,
+			$.view_declaration,
+			$.scalar_declaration,
+			$.enum_declaration,
+			$.role_declaration,
+		),
+
+		// Editor-only sections: the runtime reads both markers as comments.
+		region: ($) => seq($.region_start, repeat($._declaration), $.region_end),
+		region_start: ($) => seq(
+			token(prec(1, /#[ \t]*region[ \t]+/)),
+			field("name", alias(token.immediate(/[^\r\n]+/), $.region_name)),
+		),
+		region_end: (_) => token(prec(1, /#[ \t]*endregion([ \t]+[^\r\n]*)?/)),
 
 		/* ---------------- Declarations ---------------- */
 
@@ -174,6 +182,7 @@ module.exports = grammar({
 				"view",
 				optional(field("name", alias($.identifier, $.type_identifier))),
 				optional(seq("for", sep1(alias($.identifier, $.type_identifier), ","))),
+				repeat($.attribute),
 				$.view_body,
 			),
 

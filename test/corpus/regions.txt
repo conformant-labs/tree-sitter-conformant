@@ -1,0 +1,76 @@
+========================
+Named and nested regions
+========================
+
+# region Catalogue
+  # An ordinary comment
+  model Product { fields { name String } }
+  # region Views
+    view Active for Staff @layout("table") { Product { name } }
+  # endregion
+# endregion
+role Staff
+
+---
+
+(document
+  (region
+    (region_start
+      (region_name))
+    (comment)
+    (model_declaration
+      (type_identifier)
+      (fields_block
+        (model_field
+          (field_identifier)
+          (field_type
+            (type_identifier)))))
+    (region
+      (region_start
+        (region_name))
+      (view_declaration
+        (type_identifier)
+        (type_identifier)
+        (attribute
+          (attribute_identifier)
+          (arguments
+            (string)))
+        (view_body
+          (view_field
+            (field_identifier)
+            (view_body
+              (view_field
+                (field_identifier))))))
+      (region_end))
+    (region_end))
+  (role_declaration
+    (type_identifier)))
+
+========================
+Empty and adjacent regions
+========================
+
+#region Empty
+#endregion
+# region Other
+  enum Status { Active Inactive }
+# endregion
+# regional commentary remains a comment
+
+---
+
+(document
+  (region
+    (region_start
+      (region_name))
+    (region_end))
+  (region
+    (region_start
+      (region_name))
+    (enum_declaration
+      (type_identifier)
+      (enum_body
+        (enum_member)
+        (enum_member)))
+    (region_end))
+  (comment))

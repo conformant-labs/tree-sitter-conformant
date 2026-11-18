@@ -1,0 +1,3 @@
+[workspace]
+members = ["crates/plato-language-server"]
+resolver = "2"
